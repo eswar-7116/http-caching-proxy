@@ -26,7 +26,7 @@ func (s *Server) Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	entry, err := upstream.Fetch(w, url)
+	entry, err := upstream.Fetch(w, url, r.Header)
 	if err != nil {
 		log.Printf("ERROR while fetching upstream for '%s': %s", url, err.Error())
 		http.Error(w, "upstream fetch failed", http.StatusBadGateway)
