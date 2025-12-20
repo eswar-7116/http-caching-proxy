@@ -1,7 +1,9 @@
 package upstream
 
 import (
+	"bytes"
 	"io"
+	"maps"
 	"net/http"
 	"time"
 
@@ -12,22 +14,25 @@ var client = &http.Client{
 	Timeout: 10 * time.Second,
 }
 
-func Fetch(url string) (*cache.Entry, error) {
+func Fetch(w http.ResponseWriter, url string) (*cache.Entry, error) {
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
+	maps.Copy(w.Header(), resp.Header)
+	w.Header().Set("X-Cache", "MISS")
+	w.WriteHeader(resp.StatusCode)
+
+	var buf bytes.Buffer
+	tee := io.TeeReader(resp.Body, &buf)
+	io.Copy(w, tee)
 
 	return &cache.Entry{
 		URL:        url,
 		Headers:    resp.Header.Clone(),
 		StatusCode: resp.StatusCode,
-		Response:   body,
+		Response:   buf.Bytes(),
 	}, nil
 }

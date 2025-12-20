@@ -13,10 +13,3 @@ func WriteCachedResponse(w http.ResponseWriter, entry cache.Entry) {
 	w.WriteHeader(entry.StatusCode)
 	w.Write(entry.Response)
 }
-
-func WriteUpstreamResponse(w http.ResponseWriter, entry *cache.Entry) {
-	maps.Copy(w.Header(), entry.Headers)
-	w.Header().Set("X-Cache", "MISS")
-	w.WriteHeader(entry.StatusCode)
-	w.Write(entry.Response)
-}
