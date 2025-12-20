@@ -15,7 +15,7 @@ func main() {
 		Cache: cache.New(),
 	}
 
-	http.HandleFunc("/fetch", server.Handler)
+	http.HandleFunc("/", server.Handler)
 
 	fmt.Println("Server started at port", PORT)
 	http.ListenAndServe(":"+PORT, nil)
