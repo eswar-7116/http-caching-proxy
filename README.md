@@ -46,7 +46,8 @@ curl 'http://localhost:8000?url=<URL>'
 ## Conclusion
 This project is a minimal, educational HTTP fetch-based caching proxy designed to demonstrate core caching concepts such as TTL, header handling, and request forwarding. It is not a full forward proxy and is intended as a foundation for learning and experimentation rather than production deployment.
 
----
+<p hidden>Built as a solution to https://roadmap.sh/projects/caching-server</p>
 
+---
 #### <div align="center">If you like this project, please give this repo a star 🌟</div>
 ---
