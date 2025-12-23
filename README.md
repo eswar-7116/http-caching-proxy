@@ -1,5 +1,5 @@
 # HTTP Caching Proxy
-HTTP Cache Proxy is a simple, minimal caching proxy server implemented in Go. It serves as a basic solution for caching HTTP responses, using an in-memory map to store the cache entries.
+HTTP Caching Proxy is a simple, minimal caching proxy server implemented in Go. It serves as a basic solution for caching HTTP responses, using an in-memory map to store the cache entries.
 
 ## Features
 - ### In-Memory Caching:
