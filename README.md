@@ -3,7 +3,7 @@ HTTP Caching Proxy is a simple, minimal caching proxy server implemented in Go. 
 
 ## Features
 - ### In-Memory Caching:
-  The server uses an in-memory map to store cached responses. This approach allows for fast lookups and reduces the time needed to retrieve cached data.
+  The server uses an in-memory map combined with an LRU list to store cached responses. This approach allows for fast lookups and reduces the time needed to retrieve cached data.
 
 - ### Proxy Functionality:
   The server forwards client requests to the target server and caches the responses. If the same request is made again, the server returns the cached response, saving the time and resources of making a new request to the target server.
@@ -11,8 +11,8 @@ HTTP Caching Proxy is a simple, minimal caching proxy server implemented in Go. 
 - ### Accepts only HTTP/HTTPS URLs
   The proxy accepts only HTTP or HTTPS URLs for upstream requests.
 
-- ### Time-based eviction policy:
-  Cache entries use lazy TTL expiration. Expired entries are removed on access and refetched from upstream for freshness.
+- ### Time-based and LRU Eviction Policy:
+  Cache entries use lazy TTL expiration combined with an LRU eviction policy. Expired and least-recently-used entries are removed when capacity exceeds and refetched from upstream for freshness.
 
 - ### Simple Design:
   This is a minimalistic implementation aimed at demonstrating the core concepts of a caching proxy server. It is not suitable for production use without further enhancements.
@@ -37,14 +37,14 @@ curl 'http://localhost:8000?url=<URL>'
 
 - ### No Size-based Eviction Policy:
 
-  This implementation does not include a size-based cache eviction policy. The cache will grow indefinitely, which could lead to memory exhaustion in long-running scenarios. Adding an eviction policy like LRU (Least Recently Used) would be a recommended enhancement.
+  This implementation does not include a size-based cache eviction policy. Eviction is based on entry count, not response size. Large responses may consume disproportionate memory.
 
 - ### Not a real forward-proxy
 
   This is an application-level fetch proxy and cannot be configured as a browser/system forward proxy.
 
 ## Conclusion
-This project is a minimal, educational HTTP fetch-based caching proxy designed to demonstrate core caching concepts such as TTL, header handling, and request forwarding. It is not a full forward proxy and is intended as a foundation for learning and experimentation rather than production deployment.
+This project is a minimal, educational HTTP fetch-based caching proxy designed to demonstrate core caching concepts such as TTL handling, LRU eviction, header handling, and request forwarding. It is not a full forward proxy and is intended as a foundation for learning and experimentation rather than production deployment.
 
 <p hidden>Built as a solution to https://roadmap.sh/projects/caching-server</p>
 
