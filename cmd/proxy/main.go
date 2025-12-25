@@ -20,8 +20,12 @@ func main() {
 		Addr: ":" + PORT,
 	}
 
+	c, err := cache.New(500, 300*time.Second)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	}
 	handler := server.Server{
-		Cache: cache.New(300 * time.Second),
+		Cache: c,
 	}
 
 	http.HandleFunc("/", handler.Handler)
